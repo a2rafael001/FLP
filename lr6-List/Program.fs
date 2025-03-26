@@ -43,6 +43,29 @@ let main argv =
     inOrder tree |> List.iter (printfn "%s")
     
     printfn "\nКоличество элементов в дереве: %d" (fold (fun acc _ -> acc + 1) 0 tree)
+
+    printfn "\n=== Задание 7: Самый частый элемент (стандартный list) ==="
+    let testList = [1; 2; 3; 2; 4; 2; 5; 2; 3; 2]
+    
+    printfn "Тестовый список: %A" testList
+    printfn "Самый частый элемент (простая версия): %A" (mostFrequent testList)
+    printfn "Самый частый элемент (хвостовая рекурсия): %A" (mostFrequentTailRec testList)
+    
+   
+
+
+     printfn "\n=== Задание 8: Подсчет квадратных элементов ==="
+    let testList1 = [1; 2; 3; 4; 5; 9; 16; 25]
+    let testList2 = [10; 20; 30; 40]
+    
+    printfn "Тестовый список 1: %A" testList1
+    printfn "Количество квадратных элементов (простая версия): %d" (countSquareElements testList1)
+    printfn "Количество квадратных элементов (хвостовая рекурсия): %d" (countSquareElementsTailRec testList1)
+    
+    printfn "\nТестовый список 2: %A" testList2
+    printfn "Количество квадратных элементов: %d" (countSquareElements testList2)
+    
+    
     
     printfn "\nВсе задания выполнены!"
     0
