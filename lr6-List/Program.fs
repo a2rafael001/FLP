@@ -10,6 +10,11 @@ open Task7
 open Task8
 open Task9
 open Task10
+open Task11
+open Task12
+open Task13
+open Task14
+open Task15
 
 [<EntryPoint>]
 let main argv =
@@ -90,6 +95,37 @@ let main argv =
     
     printfn "\nОтсортированный список (хвостовая рекурсия):"
     sortByLengthTailRec stringList |> List.iter (printfn "%s")
+
+    printfn "\n=== Задание 11: Перестановка между min и max ==="
+    let list11 = [10; 5; 3; 8; 15; 6; 9; 12]
+    printfn "Исходный список: %A" list11
+    printfn "Результат (Church): %A" (list11 |> ChurchList.ofList |> Task11.reverseBetweenMinMaxChurch |> ChurchList.toList)
+    printfn "Результат (list): %A" (Task11.reverseBetweenMinMax list11)
+
+    printfn "\n=== Задание 12: Количество минимальных в интервале ==="
+    let list12 = [3; 7; 2; 5; 2; 8; 2; 4; 6]
+    let a, b = 3, 7
+    printfn "Список: %A, интервал [%d..%d]" list12 a b
+    printfn "Количество (Church): %d" (list12 |> ChurchList.ofList |> Task12.countMinInRangeChurch a b)
+    printfn "Количество (list): %d" (Task12.countMinInRange list12 a b)
+
+    printfn "\n=== Задание 13: Локальные максимумы ==="
+    let list13 = [1; 3; 2; 4; 1; 5; 3; 2]
+    printfn "Список: %A" list13
+    printfn "Количество (Church): %d" (list13 |> ChurchList.ofList |> Task13.countLocalMaxChurch)
+    printfn "Количество (list): %d" (Task13.countLocalMax list13)
+
+    printfn "\n=== Задание 14: Элементы меньше среднего ==="
+    let list14 = [10; 20; 30; 40; 50]
+    printfn "Список: %A" list14
+    printfn "Результат (Church): %A" (list14 |> ChurchList.ofList |> Task14.belowAverageChurch |> ChurchList.toList)
+    printfn "Результат (list): %A" (Task14.belowAverage list14)
+
+    printfn "\n=== Задание 15: Простые делители ==="
+    let num = 60
+    printfn "Число: %d" num
+    printfn "Делители (Church): %A" (Task15.primeFactorsChurch num |> ChurchList.toList)
+    printfn "Делители (list): %A" (Task15.primeFactors num)
     
     printfn "\nВсе задания выполнены!"
     0
