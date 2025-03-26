@@ -9,6 +9,7 @@ open Task6
 open Task7
 open Task8
 open Task9
+open Task10
 
 [<EntryPoint>]
 let main argv =
@@ -54,10 +55,8 @@ let main argv =
     printfn "Самый частый элемент (простая версия): %A" (mostFrequent testList)
     printfn "Самый частый элемент (хвостовая рекурсия): %A" (mostFrequentTailRec testList)
     
-   
 
-
-     printfn "\n=== Задание 8: Подсчет квадратных элементов ==="
+    printfn "\n=== Задание 8: Подсчет квадратных элементов ==="
     let testList1 = [1; 2; 3; 4; 5; 9; 16; 25]
     let testList2 = [10; 20; 30; 40]
     
@@ -80,7 +79,17 @@ let main argv =
     let result = composeSpecialTriples listA listB listC
     printfn "Результат: %A" result
     
+    printfn "\n=== Задание 10: Сортировка строк по длине ==="
+    let stringList = readStringList()
     
+    printfn "\nИсходный список строк:"
+    stringList |> List.iter (printfn "%s")
+    
+    printfn "\nОтсортированный список (стандартная сортировка):"
+    sortByLength stringList |> List.iter (printfn "%s")
+    
+    printfn "\nОтсортированный список (хвостовая рекурсия):"
+    sortByLengthTailRec stringList |> List.iter (printfn "%s")
     
     printfn "\nВсе задания выполнены!"
     0
