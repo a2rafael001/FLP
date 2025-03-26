@@ -1,23 +1,20 @@
 ﻿module Task5
 
-open Task1
+open ChurchList
 
-// Функция нахождения самого частого элемента списка Черча
-let mostFrequentElement (ChurchList churchList) =
-    let lst = toList churchList
-    let rec countOccurrences item lst count =
-        match lst with
-        | [] -> count
-        | x :: xs -> countOccurrences item xs (if x = item then count + 1 else count)
+let mostFrequent clist =
+    let updateCount count x =
+        match Map.tryFind x count with
+        | Some c -> Map.add x (c + 1) count
+        | None -> Map.add x 1 count
     
-    let rec findMostFrequent lst (maxElem, maxCount) =
-        match lst with
-        | [] -> maxElem
-        | x :: xs ->
-            let count = countOccurrences x lst 0
-            if count > maxCount then findMostFrequent xs (x, count)
-            else findMostFrequent xs (maxElem, maxCount)
+    let countMap = 
+        clist updateCount Map.empty
     
-    match lst with
-    | [] -> failwith "Список пуст"
-    | x :: xs -> findMostFrequent lst (x, 0)
+    if Map.isEmpty countMap then None
+    else
+        countMap
+        |> Map.toList
+        |> List.maxBy snd
+        |> fst
+        |> Some

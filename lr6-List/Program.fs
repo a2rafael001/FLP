@@ -1,5 +1,5 @@
-﻿module Program
-
+﻿open System
+open ChurchList
 open Task1
 open Task2
 open Task3
@@ -9,29 +9,40 @@ open Task6
 
 [<EntryPoint>]
 let main argv =
+    printfn "=== Задание 1: Чтение списка ==="
     printf "Введите количество элементов: "
-    let n = int (System.Console.ReadLine())
-    let churchList = readChurchList n
+    let n = Console.ReadLine() |> int
+    let clist = readChurchList n
     
-    printf "Список: "
-    printChurchList churchList
+    printfn "\n=== Задание 2: Вывод списка ==="
+    printChurchList clist
     
-    let minElem = minElement churchList
-    printfn "Минимальный элемент: %d" minElem
+    printfn "\n=== Задание 3: Тест fold (сумма положительных) ==="
+    let sumPos = churchFold clist (+) (fun x -> x > 0) 0
+    printfn "Сумма положительных: %d" sumPos
     
-    let sumEvenNumbers = sumEven churchList
-    printfn "Сумма четных элементов: %d" sumEvenNumbers
+    printfn "\n=== Задание 4: Специализированные функции ==="
+    printfn "Минимальный элемент: %d" (minElement clist)
+    printfn "Сумма четных: %d" (sumEven clist)
+    printfn "Количество нечетных: %d" (countOdd clist)
     
-    let oddCount = countOdd churchList
-    printfn "Количество нечетных элементов: %d" oddCount
+    printfn "\n=== Задание 5: Самый частый элемент ==="
+    match mostFrequent clist with
+    | Some x -> printfn "Самый частый элемент: %d" x
+    | None -> printfn "Список пустой"
     
-    let mostFrequent = mostFrequentElement churchList
-    printfn "Самый частый элемент: %d" mostFrequent
+    printfn "\n=== Задание 6: Бинарное дерево строк ==="
+    let tree = 
+        ["orange"; "apple"; "banana"; "grape"; "kiwi"; "pear"]
+        |> fromList
     
-    printf "Введите строки через пробел: "
-    let inputStrings = System.Console.ReadLine().Split(' ') |> List.ofArray
-    let tree = buildTree inputStrings
-    printf "Обход дерева (in-order): "
-    printTree tree
+    printfn "Дерево содержит 'apple': %b" (contains "apple" tree)
+    printfn "Дерево содержит 'mango': %b" (contains "mango" tree)
     
+    printfn "\nIn-order обход дерева:"
+    inOrder tree |> List.iter (printfn "%s")
+    
+    printfn "\nКоличество элементов в дереве: %d" (fold (fun acc _ -> acc + 1) 0 tree)
+    
+    printfn "\nВсе задания выполнены!"
     0

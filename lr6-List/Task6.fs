@@ -1,29 +1,49 @@
 ﻿module Task6
 
-// Определение двоичного дерева с элементами типа string
-type BinaryTree =
-    | Empty
-    | Node of string * BinaryTree * BinaryTree
+// Определение бинарного дерева
+type StringTree =
+    | Leaf
+    | Node of string * StringTree * StringTree
 
-// Функция добавления элемента в дерево
+// Создание пустого дерева
+let empty = Leaf
+
+// Вставка элемента в дерево
 let rec insert value tree =
     match tree with
-    | Empty -> Node(value, Empty, Empty)
+    | Leaf -> Node(value, Leaf, Leaf)
     | Node(v, left, right) ->
         if value < v then Node(v, insert value left, right)
-        else Node(v, left, insert value right)
+        elif value > v then Node(v, left, insert value right)
+        else tree
 
-// Функция обхода дерева в порядке in-order (слева-корень-справа)
-let rec inorderTraversal tree =
+// Построение дерева из списка
+let fromList lst =
+    List.fold (fun acc x -> insert x acc) Leaf lst
+
+// Обход в глубину (in-order) с хвостовой рекурсией
+let inOrder tree =
+    let rec loop tree acc =
+        match tree with
+        | Leaf -> acc
+        | Node(v, left, right) ->
+            loop left (v :: loop right acc)
+    loop tree [] |> List.rev
+
+// Поиск элемента в дереве
+let rec contains value tree =
     match tree with
-    | Empty -> []
-    | Node(v, left, right) -> inorderTraversal left @ [v] @ inorderTraversal right
+    | Leaf -> false
+    | Node(v, left, right) ->
+        if value = v then true
+        elif value < v then contains value left
+        else contains value right
 
-// Функция построения дерева из списка строк
-let buildTree (values: string list) =
-    List.fold insert Empty values
-
-// Функция вывода дерева
-let printTree tree =
-    inorderTraversal tree |> List.iter (printf "%s ")
-    printfn ""
+// Fold для дерева
+let rec fold f acc tree =
+    match tree with
+    | Leaf -> acc
+    | Node(v, left, right) ->
+        let leftAcc = fold f acc left
+        let nodeAcc = f leftAcc v
+        fold f nodeAcc right

@@ -1,19 +1,13 @@
 ﻿module Task4
 
-open Task1
+open ChurchList
 open Task3
 
-// Функция нахождения минимального элемента
-let minElement (ChurchList churchList) =
-    let lst = toList (ChurchList churchList)
-    match lst with
-    | [] -> failwith "Список пуст"
-    | x::xs -> List.fold min x xs
+let minElement clist =
+    churchFold clist (fun acc x -> if x < acc then x else acc) (fun _ -> true) System.Int32.MaxValue
 
-// Функция суммы четных элементов
-let sumEven (ChurchList churchList) =
-    foldChurchList (+) (fun x -> x % 2 = 0) 0 (ChurchList churchList)
+let sumEven clist =
+    churchFold clist (+) (fun x -> x % 2 = 0) 0
 
-// Функция подсчета количества нечетных элементов
-let countOdd (ChurchList churchList) =
-    foldChurchList (fun acc _ -> acc + 1) (fun x -> x % 2 <> 0) 0 (ChurchList churchList)
+let countOdd clist =
+    churchFold clist (fun acc _ -> acc + 1) (fun x -> x % 2 <> 0) 0
