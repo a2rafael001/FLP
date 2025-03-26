@@ -6,6 +6,9 @@ open Task3
 open Task4
 open Task5
 open Task6
+open Task7
+open Task8
+open Task9
 
 [<EntryPoint>]
 let main argv =
@@ -64,6 +67,18 @@ let main argv =
     
     printfn "\nТестовый список 2: %A" testList2
     printfn "Количество квадратных элементов: %d" (countSquareElements testList2)
+
+    printfn "\n=== Задание 9: Составление специальных кортежей ==="
+    let listA = [10; 20; 30; 40]
+    let listB = [123; 45; 67; 89]
+    let listC = [12; 24; 36; 48]
+    
+    printfn "Список A: %A" listA
+    printfn "Список B: %A" listB
+    printfn "Список C: %A" listC
+    
+    let result = composeSpecialTriples listA listB listC
+    printfn "Результат: %A" result
     
     
     
