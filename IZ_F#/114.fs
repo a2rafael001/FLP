@@ -1,39 +1,32 @@
-open System
 open System.Collections.Generic
 
-// Подсчёт количества способов разложить строку длиной n
-let countWays (n: int) : int =
-    let cache = Dictionary<int, int>()        // Кэширование значений
-    let mutable callCount = 0                 // Счётчик вызовов
+let countWays (n:int) : int64 =
+    let cache = Dictionary<int, int64>()
+    
+    let rec countTail n =
+        match n with
+        | _ when n < 0 -> 0L
+        | 0 -> 1L
+        | _ when cache.ContainsKey(n) -> cache.[n]
+        | _ ->
+            // Серый блок
+            let greyWays = countTail (n - 1)
 
-    // Хвостовая рекурсивная функция
-    let rec countTail n acc =
-        callCount <- callCount + 1
+            // Красные блоки
+            let redWays =
+                [3..n]
+                |> List.fold (fun acc blockLen ->
+                    acc + (if n - blockLen - 1 >= 0 then countTail (n - blockLen - 1) else 1L)
+                ) 0L
 
-        if cache.ContainsKey(n) then
-            acc + cache.[n]
-        elif n < 0 then
-            acc
-        elif n = 0 then
-            acc + 1
-        else
-            let mutable total = 0
-            // Пробуем вставить серый блок длины 1
-            total <- total + countTail (n - 1) 0
-
-            // Пробуем вставить красные блоки от 3 до n
-            for blockLength in 3 .. n do
-                total <- total + countTail (n - blockLength - 1) 0
-
+            let total = greyWays + redWays
             cache.[n] <- total
-            acc + total
+            total
 
-    let result = countTail n 0
-    printfn "Количество вызовов функции: %d" callCount
-    result
+    countTail n
 
 [<EntryPoint>]
 let main argv =
     let result = countWays 50
-    printfn "Количество способов заполнить строку: %d" result
+    printfn "Количество способов заполнить строку длины 50: %d" result
     0
