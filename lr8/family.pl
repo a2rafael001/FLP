@@ -1,4 +1,4 @@
-% Пол
+% пїЅпїЅпїЅ
 man(ivan).
 man(alexey).
 man(mikhail).
@@ -10,7 +10,7 @@ woman(olga).
 woman(svetlana).
 woman(ekaterina).
 
-% Родители
+% пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 parent(ivan, alexey).
 parent(maria, alexey).
 parent(ivan, olga).
@@ -24,36 +24,36 @@ parent(svetlana, ekaterina).
 parent(olga, andrey).
 parent(mikhail, andrey).
 
-% Все мужчины
+% пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 men :- man(X), write(X), nl, fail.
 men.
 
-% Все женщины
+% пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 women :- woman(X), write(X), nl, fail.
 women.
 
-% Дети X
+% пїЅпїЅпїЅпїЅ X
 children(X) :- parent(X, Y), write(Y), nl, fail.
 children(_).
 
-% Является ли X матерью Y
+% пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ X пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Y
 mother(X, Y) :- woman(X), parent(X, Y).
 
-% Мама X
+% пїЅпїЅпїЅпїЅ X
 mother(X) :- parent(Y, X), woman(Y), write(Y), nl.
 
-% Является ли X братом Y
+% пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ X пїЅпїЅпїЅпїЅпїЅпїЅ Y
 brother(X, Y) :-
     man(X),
     X \= Y,
     parent(P, X),
     parent(P, Y).
 
-% Все братья X
+% пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ X
 brothers(X) :- brother(Y, X), write(Y), nl, fail.
 brothers(_).
 
-% X и Y — родные братья/сёстры
+% X пїЅ Y пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅ
 b_s(X, Y) :-
     X \= Y,
     parent(P1, X),
@@ -62,6 +62,16 @@ b_s(X, Y) :-
     parent(P2, Y),
     P1 \= P2.
 
-% Все братья или сестры X
+% пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ X
 b_s(X) :- b_s(X, Y), write(Y), nl, fail.
 b_s(_).
+
+son(X, Y) :- man(X), parent(Y, X).
+
+son(X) :- parent(X, Y), man(Y), write(Y), nl, fail.
+son(_).
+
+sister(X, Y) :- woman(X), X \= Y, parent(P, X), parent(P, Y).
+
+sisters(X) :- sister(Y, X), write(Y), nl, fail.
+sisters(_).
