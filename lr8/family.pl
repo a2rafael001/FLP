@@ -1,4 +1,4 @@
-% ���
+% пол
 man(ivan).
 man(alexey).
 man(mikhail).
@@ -10,7 +10,7 @@ woman(olga).
 woman(svetlana).
 woman(ekaterina).
 
-% ��������
+% Родители
 parent(ivan, alexey).
 parent(maria, alexey).
 parent(ivan, olga).
@@ -24,54 +24,48 @@ parent(svetlana, ekaterina).
 parent(olga, andrey).
 parent(mikhail, andrey).
 
-% ��� �������
+% Все мужчины
 men :- man(X), write(X), nl, fail.
 men.
 
-% ��� �������
+% Все женщины
 women :- woman(X), write(X), nl, fail.
 women.
 
-% ���� X
+% Дети X
 children(X) :- parent(X, Y), write(Y), nl, fail.
 children(_).
 
-% �������� �� X ������� Y
+% Является ли X матерью Y
 mother(X, Y) :- woman(X), parent(X, Y).
 
-% ���� X
+% Мама  X
 mother(X) :- parent(Y, X), woman(Y), write(Y), nl.
 
-% �������� �� X ������ Y
-brother(X, Y) :-
-    man(X),
-    X \= Y,
-    parent(P, X),
-    parent(P, Y).
+% Является ли X братом Y
+brother(X, Y) :- man(X), X \= Y, parent(P, X), parent(P, Y).
 
-% ��� ������ X
+% Все братья X
 brothers(X) :- brother(Y, X), write(Y), nl, fail.
 brothers(_).
 
-% X � Y � ������ ������/�����
-b_s(X, Y) :-
-    X \= Y,
-    parent(P1, X),
-    parent(P1, Y),
-    parent(P2, X),
-    parent(P2, Y),
-    P1 \= P2.
+% X и Y — родные братья/сёстры
+b_s(X, Y) :- X \= Y, parent(P1, X), parent(P1, Y), parent(P2, X), parent(P2, Y), P1 \= P2.
 
-% ��� ������ ��� ������ X
+% Все братья или сестры X
 b_s(X) :- b_s(X, Y), write(Y), nl, fail.
 b_s(_).
 
+% X является сыном Y
 son(X, Y) :- man(X), parent(Y, X).
 
+% вывести всех сыновей X
 son(X) :- parent(X, Y), man(Y), write(Y), nl, fail.
 son(_).
 
+%  X является сестрой Y
 sister(X, Y) :- woman(X), X \= Y, parent(P, X), parent(P, Y).
 
+% вывести всех сестер X
 sisters(X) :- sister(Y, X), write(Y), nl, fail.
 sisters(_).
