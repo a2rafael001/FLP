@@ -4,6 +4,7 @@ man(alexey).
 man(mikhail).
 man(daniil).
 man(andrey).
+man(sergey).
 
 woman(maria).
 woman(olga).
@@ -69,3 +70,50 @@ sister(X, Y) :- woman(X), X \= Y, parent(P, X), parent(P, Y).
 % вывести всех сестер X
 sisters(X) :- sister(Y, X), write(Y), nl, fail.
 sisters(_).
+
+
+
+% --- grand_ma(X, Y) ---
+% X - бабушка Y, если X - женщина, X - родитель Z, и Z - родитель Y
+grand_ma(X, Y) :-
+    woman(X),
+    parent(X, Z),
+    parent(Z, Y).
+
+% --- grand_mas(X) ---
+% Вывести всех бабушек X
+grand_mas(X) :-
+    grand_ma(G, X),
+    write(G), nl,
+    fail.
+grand_mas(_).
+
+% --- grand_pa_and_son(X, Y) ---
+% Проверяет, являются ли X и Y дедушкой и внуком (или наоборот).
+% Пусть считаем "внуком" только мальчика (man).
+grand_pa_and_son(X, Y) :-
+    (   man(X),
+        parent(X, Z),
+        parent(Z, Y),
+        man(Y)
+    ;   man(Y),
+        parent(Y, Z),
+        parent(Z, X),
+        man(X)
+    ).
+
+% --- uncle(X, Y) ---
+% X - дядя Y, если X - мужчина, 
+% у Y есть родитель Z, и X - брат Z.
+uncle(X, Y) :-
+    man(X),
+    parent(Z, Y),
+    brother(X, Z).
+
+% --- uncles(X) ---
+% Вывести всех дядей X
+uncles(X) :-
+    uncle(U, X),
+    write(U), nl,
+    fail.
+uncles(_).
