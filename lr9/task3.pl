@@ -62,3 +62,6 @@ count_between_min(List, Count) :-
 print_count_between(Count) :-
     write('Elements between first and last min: '), write(Count), nl.
 
+% Пример использования:
+% read_list(List), count_between_min(List, Count), print_count_between(Count).
+
